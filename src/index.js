@@ -12,9 +12,9 @@ const refs = {
 
 const api = new ApiService();
 
-refs.input.addEventListener('submit', formGetInput);
+refs.input.addEventListener('submit', formInput);
 
-function formGetInput(e) {
+function formInput(e) {
   e.preventDefault();
   refs.gallery.innerHTML = '';
   api.resetPage();
@@ -24,11 +24,10 @@ function formGetInput(e) {
 
 async function getInputApi() {
   const responseFromApi = await api.fetchImages();
-  console.log('~ responseFromApi', responseFromApi);
-
   makeGallery(responseFromApi);
   api.incrementPage();
 }
+
 function makeGallery(images) {
   const totalHits = images.data.totalHits;
   alerts(totalHits);
@@ -41,6 +40,7 @@ function makeGallery(images) {
     .join('');
   renderGallery(marcup);
 }
+
 const lightbox = new SimpleLightbox('.gallery__item');
 
 function renderGallery(markup) {
@@ -58,7 +58,6 @@ function alerts(totalHits) {
   }
 
   if (totalHits / totalImages <= 1) {
-    console.log('~ page', api.page);
     return Notify.failure(`We're sorry, but you've reached the end of search results.`);
   }
 

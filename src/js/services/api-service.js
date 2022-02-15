@@ -8,9 +8,6 @@ class ApiService {
   set request(newRequest) {
     this.request = newRequest;
   }
-  //   constructor({ request }) {
-  //     this.request = request;
-  //   }
 
   fetchImages() {
     const params = new URLSearchParams({
@@ -28,6 +25,7 @@ class ApiService {
       console.error('Ошибочка', error);
     }
   }
+
   incrementPage() {
     this.page += 1;
   }
@@ -35,8 +33,10 @@ class ApiService {
   resetPage() {
     this.page = 1;
   }
+
   get page() {
     return this.page;
   }
 }
+
 export default ApiService;
