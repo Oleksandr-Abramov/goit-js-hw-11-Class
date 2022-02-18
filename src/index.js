@@ -20,12 +20,17 @@ function formInput(e) {
   api.resetPage();
   api.request = refs.input.searchQuery.value;
   getInputApi();
+  window.addEventListener('scroll', scrollListener);
 }
 
 async function getInputApi() {
-  const responseFromApi = await api.fetchImages();
-  makeGallery(responseFromApi);
-  api.incrementPage();
+  try {
+    const responseFromApi = await api.fetchImages();
+    makeGallery(responseFromApi);
+    api.incrementPage();
+  } catch (error) {
+    console.error('Ошибочка', error);
+  }
 }
 
 function makeGallery(images) {
@@ -58,6 +63,7 @@ function alerts(totalHits) {
   }
 
   if (totalHits / totalImages <= 1) {
+    window.removeEventListener('scroll', scrollListener);
     return Notify.failure(`We're sorry, but you've reached the end of search results.`);
   }
 
@@ -66,14 +72,16 @@ function alerts(totalHits) {
   }
 }
 
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', scrollListener);
+
+function scrollListener() {
   if (
     window.scrollY + window.innerHeight - document.documentElement.scrollHeight < 1 &&
     window.scrollY + window.innerHeight - document.documentElement.scrollHeight > -1
   ) {
     getInputApi();
   }
-});
+}
 
 function pageScroll() {
   if (api.page === 1) {

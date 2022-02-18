@@ -19,11 +19,7 @@ class ApiService {
       per_page: 40,
       page: this.page,
     });
-    try {
-      return ApiService.axios.get(`${this.BASE_URL}?${params}`);
-    } catch (error) {
-      console.error('Ошибочка', error);
-    }
+    return ApiService.axios.get(`${this.BASE_URL}?${params}`);
   }
 
   incrementPage() {
